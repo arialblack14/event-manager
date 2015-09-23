@@ -1,7 +1,7 @@
-require "csv"
-require_relative 'sunlight-congress'
+require 'csv'
+require 'sunlight/congress'
 
-Sunlight::Congress.api_key = "c09586eb79f04ed79664cdb09c3f6bb9"
+Sunlight::Congress.api_key = "a689a92ea3384be7a523082e7ee8ea95"
 
 def clean_zipcode(zipcode)
 	zipcode.to_s.rjust(5, "0")[0..4]
@@ -14,7 +14,14 @@ contents.each do |row|
 	name = row[:first_name]
 
 	zipcode = clean_zipcode(row[:zipcode])
-	legislators = Sunlight::Congress::Legislators.by_zipcode(zipcode)
 
-	puts "#{name} #{zipcode} #{legislators}"
+	legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
+
+	legislator_names = legislators.collect do |legislator|
+		"#{legislator.first_name} #{legislator.last_name}" 
+	end
+
+	legislators_string = legislator_names.join(", ")
+
+	puts "#{name} #{zipcode} #{legislators_string}"
 end
