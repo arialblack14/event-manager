@@ -8,6 +8,17 @@ def clean_zipcode(zipcode)
 	zipcode.to_s.rjust(5, "0")[0..4]
 end
 
+def clean_phone_number(number)
+	str_number = number.to_s.length
+	if str_number == 10
+		number
+	elsif !str_number.between? 10, 11
+		number = 0
+	elsif str_number > 10
+		number.to_s.split("").first == 1 ? number.to_s.split("")[1..-1].join : 0
+	end
+end
+
 def legislators_by_zipcode zipcode
 	Sunlight::Congress::Legislator.by_zipcode(zipcode) 
 end
