@@ -13,9 +13,9 @@ def clean_phone_number(number)
 	if str_number == 10
 		number
 	elsif !str_number.between? 10, 11
-		number = 0
+		number = "00000000000"
 	elsif str_number > 10
-		number.to_s.split("").first == 1 ? number.to_s.split("")[1..-1].join : 0
+		number.to_s.split("").first == 1 ? number.to_s.split("")[1..-1].join : "0000000000"
 	end
 end
 
@@ -37,7 +37,7 @@ puts "EventManager initialized."
 
 contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 
-template_letter = File.read "form_letter.html"
+template_letter = File.read "form_letter.html.erb"
 erb_template = ERB.new template_letter
 
 contents.each do |row|
